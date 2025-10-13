@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6sqx6tcy47wi"]
+
+[ext_resource type="Script" uid="uid://cl1pknc5kfhni" path="res://scripts/test/test_2d_move.gd" id="1_dminj"]
+[ext_resource type="Script" uid="uid://qvh4bw7i3w78" path="res://scripts/core/2dmove/transform_control.gd" id="2_io7mt"]
+[ext_resource type="Texture2D" uid="uid://eh22112651it" path="res://art/icon.svg" id="3_u6oww"]
+
+[node name="Test2dMove" type="Node2D" node_paths=PackedStringArray("control")]
+script = ExtResource("1_dminj")
+control = NodePath("Node2D/TransformControl")
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(561, 303)
+
+[node name="TransformControl" type="Node2D" parent="Node2D" node_paths=PackedStringArray("node")]
+script = ExtResource("2_io7mt")
+node = NodePath("..")
+use_juice = true
+rotate_on_move = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
+texture = ExtResource("3_u6oww")
