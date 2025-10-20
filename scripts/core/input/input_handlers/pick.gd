@@ -1,3 +1,4 @@
+
 # Put this script on a Node2D that is a child of an InputControl node.
 extends Node2D
 class_name Pick
@@ -5,14 +6,14 @@ class_name Pick
 
 @export var pick_group_names: Array[String] = []
 @export var cancel_on_repick: bool = true
-var input_control: InputControl
+var input_control: InputController
 
 signal on_pick(pick_index: int)
 signal on_cancel()
 
 
 func _ready() -> void:
-	input_control = get_parent() as InputControl
+	input_control = get_parent() as InputController
 	assert(input_control != null, "MouseInput must be a child of an InputControl node")
 	
 	

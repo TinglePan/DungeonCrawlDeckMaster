@@ -1,5 +1,5 @@
 extends Node2D
-class_name TransformControl
+class_name TransformController
 
 
 enum MoveAxis {
@@ -14,7 +14,7 @@ enum MoveAxis {
 @export var hover_scale_factor: float = 0.05  # Scale factor when hovering (1 + factor)
 @export var drag_scale_factor: float = 0.1  # Scale factor when dragging (1 + factor)
 
-var input_control: InputControl
+var input_controller: InputController
 
 var change_position_value: ChangeValue
 var change_rotation_value: ChangeValue
@@ -27,7 +27,7 @@ signal on_stop_change
 
 func _ready() -> void:
 	assert(node != null)
-	input_control = node.get_node_or_null("InputControl")
+	input_controller = node.get_node_or_null("InputController")
 	
 	change_position_value = ChangeValue.new(node.global_position)
 	change_rotation_value = ChangeValue.new(node.rotation)
@@ -42,11 +42,11 @@ func _process(delta: float) -> void:
 	var scale_mod_target_mult: Vector2 = Vector2.ONE
 	var is_changing_now: bool = false
 	
-	if input_control != null:
+	if input_controller != null:
 		var input_state: InputState = g_input_mgr.current_input_state()
-		if input_state.is_dragging(input_control) or input_state.is_holding(input_control):
+		if input_state.is_dragging(input_controller) or input_state.is_holding(input_controller):
 			scale_mod_target_mult += Vector2.ONE * drag_scale_factor
-		elif input_state.is_hovering(input_control):
+		elif input_state.is_hovering(input_controller):
 			scale_mod_target_mult += Vector2.ONE * hover_scale_factor
 		
 	if juice != null and juice.is_running:
@@ -54,7 +54,7 @@ func _process(delta: float) -> void:
 		rotation_mod_target_value += juice.current_juice_rotation
 		scale_mod_target_mult += juice.current_juice_scale
 
-	if change_position_value.is_changing() or is_changing:
+	if change_position_value.is_changing():
 		is_changing_now = true
 		change_position_value.update(delta)
 
@@ -66,7 +66,7 @@ func _process(delta: float) -> void:
 			change_rotation_value.update_mod_target_value(rotation_mod_target_value)
 		else:
 			change_rotation_value.start_change(change_rotation_value.target_value, ChangeValue.ChangeType.SMOOTH_DAMP, Constants.DEFAULT_SMOOTH_TIME, rotation_mod_target_value)
-	if change_rotation_value.is_changing() or is_changing:
+	if change_rotation_value.is_changing():
 		is_changing_now = true
 		change_rotation_value.update(delta)
 
@@ -76,7 +76,7 @@ func _process(delta: float) -> void:
 			change_scale_value.update_mod_target_value(scale_mod_target_value)
 		else:
 			change_scale_value.start_change(change_scale_value.target_value, ChangeValue.ChangeType.SMOOTH_DAMP, Constants.DEFAULT_SMOOTH_TIME, scale_mod_target_value)
-	if change_scale_value.is_changing() or is_changing:
+	if change_scale_value.is_changing():
 		is_changing_now = true
 		change_scale_value.update(delta)
 	
@@ -119,5 +119,5 @@ func start_juice(amount_rotation: float = 0.0, amount_scale: Vector2 = Vector2(0
 	
 	
 func wait_for_stop():
-	if is_changing:
+	if is_changing or juice.is_running or change_position_value.is_changing() or change_rotation_value.is_changing() or change_scale_value.is_changing():
 		await on_stop_change

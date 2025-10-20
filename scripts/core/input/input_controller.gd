@@ -1,5 +1,5 @@
 extends Node2D
-class_name InputControl
+class_name InputController
 
 
 @export var mouse_input: MouseInput
@@ -61,12 +61,12 @@ func on_mouse_up(button_index: MouseButton, _mouse_position: Vector2, notificati
 				if drop != null:
 					if button_index == mouse_drag_button:
 						var input_state: InputState = g_input_mgr.current_input_state()
-						drop.drop(input_state.dragging_controls)
+						drop.drop(input_state.dragging_controllers)
 						return mouse_input.stop_propagation
 	return false
 	
 	
-func on_mouse_motion(button_index: MouseButton, mouse_position: Vector2) -> void:
+func on_mouse_motion(button_index: MouseButton, _mouse_relative: Vector2, mouse_position: Vector2) -> void:
 	if mouse_input != null:
 		if drag != null and button_index == mouse_drag_button:
 			var input_state: InputState = g_input_mgr.current_input_state()

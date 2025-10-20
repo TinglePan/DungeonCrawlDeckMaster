@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var control: TransformControl
+@export var control: TransformController
 var step: int
 #var has_started: bool = false
 #var test_value: float = 0.0
@@ -12,7 +12,7 @@ var step: int
 func _ready():
 #	start_time = Time.get_ticks_msec()
 #	step = 0
-	step = 9
+	step = 0
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

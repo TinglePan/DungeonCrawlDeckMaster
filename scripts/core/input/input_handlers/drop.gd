@@ -3,23 +3,23 @@ extends Node2D
 class_name Drop
 
 
-var input_control: InputControl
-signal on_drop(controls: Array[InputControl])
+var input_control: InputController
+signal on_drop(controls: Array[InputController])
 
 
 func _ready() -> void:
-	input_control = get_parent() as InputControl
+	input_control = get_parent() as InputController
 	assert(input_control != null, "MouseInput must be a child of an InputControl node")
 	
 	
-func can_drop(control: InputControl) -> bool:
+func can_drop(control: InputController) -> bool:
 	if control.drag == null:
 		return false
 	return true
 
 
 func drop(controls: Array) -> void:
-	var dropped_controls: Array[InputControl] = []
+	var dropped_controls: Array[InputController] = []
 	for control in controls:
 		if can_drop(control):
 			control.drag.stop()

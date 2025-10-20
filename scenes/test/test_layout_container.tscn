@@ -1,0 +1,355 @@
+[gd_scene load_steps=14 format=3 uid="uid://5sry1kyik1df"]
+
+[ext_resource type="Script" uid="uid://3xmd77w2f68e" path="res://scripts/core/layout/container/grid_layout_container.gd" id="1_dcbco"]
+[ext_resource type="Script" uid="uid://ckkg66l44ldh4" path="res://scripts/test/test_layout_container.gd" id="1_fe0cm"]
+[ext_resource type="Script" uid="uid://chq0n3wxb0wne" path="res://scripts/core/layout/container/list_layout_container.gd" id="2_2hwlw"]
+[ext_resource type="Script" uid="uid://bi5my4w2ybkpm" path="res://scripts/core/layout/layout_element.gd" id="2_yws0d"]
+[ext_resource type="Texture2D" uid="uid://eh22112651it" path="res://art/icon.svg" id="4_2hwlw"]
+[ext_resource type="Script" uid="uid://cfxn1q0djfr3j" path="res://scripts/core/input/input_controller.gd" id="5_4f3db"]
+[ext_resource type="Script" uid="uid://b0u5rrfnle1v" path="res://scripts/core/input/mouse/mouse_input.gd" id="6_5ngy0"]
+[ext_resource type="Script" uid="uid://d2t1ouwjdmtyq" path="res://scripts/core/input/input_handlers/hover.gd" id="7_khp5w"]
+[ext_resource type="Script" uid="uid://c0j6c2y18bpy8" path="res://scripts/core/2dmove/transform_controller.gd" id="8_fe0cm"]
+[ext_resource type="Script" uid="uid://blhdl2s8ep2ej" path="res://scripts/core/2dmove/camera_transform_controller.gd" id="10_rx00r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2hwlw"]
+size = Vector2(640, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4f3db"]
+size = Vector2(128, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_om8lt"]
+size = Vector2(2000, 1000)
+
+[node name="TestLayoutContainer" type="Control" node_paths=PackedStringArray("layout_container", "layout_elements", "layout_container_2", "layout_elements_2", "camera_transform_controller")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fe0cm")
+layout_container = NodePath("ListLayoutContainer")
+layout_elements = [NodePath("ListLayoutContainer/ContentNode/LayoutElement"), NodePath("ListLayoutContainer/ContentNode2/LayoutElement"), NodePath("ListLayoutContainer/ContentNode3/LayoutElement"), NodePath("ListLayoutContainer/ContentNode4/LayoutElement")]
+layout_container_2 = NodePath("SubViewportContainer/SubViewport/GridLayoutContainer")
+layout_elements_2 = [NodePath("SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode/LayoutElement"), NodePath("SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode2/LayoutElement"), NodePath("SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode3/LayoutElement"), NodePath("SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode4/LayoutElement")]
+camera_transform_controller = NodePath("SubViewportContainer/SubViewport/Camera2D/CameraTransformController")
+
+[node name="ListLayoutContainer" type="Node2D" parent="." node_paths=PackedStringArray("reference_area", "reference_area_shape")]
+position = Vector2(576, 557)
+script = ExtResource("2_2hwlw")
+reference_area = NodePath("Area2D")
+reference_area_shape = NodePath("Area2D/CollisionShape2D")
+
+[node name="Area2D" type="Area2D" parent="ListLayoutContainer"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ListLayoutContainer/Area2D"]
+shape = SubResource("RectangleShape2D_2hwlw")
+
+[node name="ContentNode" type="Node2D" parent="ListLayoutContainer"]
+
+[node name="LayoutElement" type="Node2D" parent="ListLayoutContainer/ContentNode" node_paths=PackedStringArray("node", "collision_shape")]
+script = ExtResource("2_yws0d")
+node = NodePath("..")
+collision_shape = NodePath("../Area2D/CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="ListLayoutContainer/ContentNode"]
+texture = ExtResource("4_2hwlw")
+
+[node name="Area2D" type="Area2D" parent="ListLayoutContainer/ContentNode"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ListLayoutContainer/ContentNode/Area2D"]
+shape = SubResource("RectangleShape2D_4f3db")
+
+[node name="InputController" type="Node2D" parent="ListLayoutContainer/ContentNode" node_paths=PackedStringArray("mouse_input", "hover")]
+script = ExtResource("5_4f3db")
+mouse_input = NodePath("MouseInput")
+hover = NodePath("Hover")
+metadata/_custom_type_script = "uid://cfxn1q0djfr3j"
+
+[node name="MouseInput" type="Node2D" parent="ListLayoutContainer/ContentNode/InputController" node_paths=PackedStringArray("area", "collision_shape")]
+script = ExtResource("6_5ngy0")
+area = NodePath("../../Area2D")
+collision_shape = NodePath("../../Area2D/CollisionShape2D")
+metadata/_custom_type_script = "uid://b0u5rrfnle1v"
+
+[node name="Hover" type="Node2D" parent="ListLayoutContainer/ContentNode/InputController"]
+script = ExtResource("7_khp5w")
+enabled = true
+
+[node name="TransformController" type="Node2D" parent="ListLayoutContainer/ContentNode" node_paths=PackedStringArray("node")]
+script = ExtResource("8_fe0cm")
+node = NodePath("..")
+metadata/_custom_type_script = "uid://c0j6c2y18bpy8"
+
+[node name="ContentNode2" type="Node2D" parent="ListLayoutContainer"]
+
+[node name="LayoutElement" type="Node2D" parent="ListLayoutContainer/ContentNode2" node_paths=PackedStringArray("node", "collision_shape")]
+script = ExtResource("2_yws0d")
+node = NodePath("..")
+collision_shape = NodePath("../Area2D/CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="ListLayoutContainer/ContentNode2"]
+texture = ExtResource("4_2hwlw")
+
+[node name="Area2D" type="Area2D" parent="ListLayoutContainer/ContentNode2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ListLayoutContainer/ContentNode2/Area2D"]
+shape = SubResource("RectangleShape2D_4f3db")
+
+[node name="InputController" type="Node2D" parent="ListLayoutContainer/ContentNode2" node_paths=PackedStringArray("mouse_input", "hover")]
+script = ExtResource("5_4f3db")
+mouse_input = NodePath("MouseInput")
+hover = NodePath("Hover")
+metadata/_custom_type_script = "uid://cfxn1q0djfr3j"
+
+[node name="MouseInput" type="Node2D" parent="ListLayoutContainer/ContentNode2/InputController" node_paths=PackedStringArray("area", "collision_shape")]
+script = ExtResource("6_5ngy0")
+area = NodePath("../../Area2D")
+collision_shape = NodePath("../../Area2D/CollisionShape2D")
+metadata/_custom_type_script = "uid://b0u5rrfnle1v"
+
+[node name="Hover" type="Node2D" parent="ListLayoutContainer/ContentNode2/InputController"]
+script = ExtResource("7_khp5w")
+enabled = true
+
+[node name="TransformController" type="Node2D" parent="ListLayoutContainer/ContentNode2" node_paths=PackedStringArray("node")]
+script = ExtResource("8_fe0cm")
+node = NodePath("..")
+metadata/_custom_type_script = "uid://c0j6c2y18bpy8"
+
+[node name="ContentNode3" type="Node2D" parent="ListLayoutContainer"]
+
+[node name="LayoutElement" type="Node2D" parent="ListLayoutContainer/ContentNode3" node_paths=PackedStringArray("node", "collision_shape")]
+script = ExtResource("2_yws0d")
+node = NodePath("..")
+collision_shape = NodePath("../Area2D/CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="ListLayoutContainer/ContentNode3"]
+texture = ExtResource("4_2hwlw")
+
+[node name="Area2D" type="Area2D" parent="ListLayoutContainer/ContentNode3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ListLayoutContainer/ContentNode3/Area2D"]
+shape = SubResource("RectangleShape2D_4f3db")
+
+[node name="InputController" type="Node2D" parent="ListLayoutContainer/ContentNode3" node_paths=PackedStringArray("mouse_input", "hover")]
+script = ExtResource("5_4f3db")
+mouse_input = NodePath("MouseInput")
+hover = NodePath("Hover")
+metadata/_custom_type_script = "uid://cfxn1q0djfr3j"
+
+[node name="MouseInput" type="Node2D" parent="ListLayoutContainer/ContentNode3/InputController" node_paths=PackedStringArray("area", "collision_shape")]
+script = ExtResource("6_5ngy0")
+area = NodePath("../../Area2D")
+collision_shape = NodePath("../../Area2D/CollisionShape2D")
+metadata/_custom_type_script = "uid://b0u5rrfnle1v"
+
+[node name="Hover" type="Node2D" parent="ListLayoutContainer/ContentNode3/InputController"]
+script = ExtResource("7_khp5w")
+enabled = true
+
+[node name="TransformController" type="Node2D" parent="ListLayoutContainer/ContentNode3" node_paths=PackedStringArray("node")]
+script = ExtResource("8_fe0cm")
+node = NodePath("..")
+metadata/_custom_type_script = "uid://c0j6c2y18bpy8"
+
+[node name="ContentNode4" type="Node2D" parent="ListLayoutContainer"]
+
+[node name="LayoutElement" type="Node2D" parent="ListLayoutContainer/ContentNode4" node_paths=PackedStringArray("node", "collision_shape")]
+script = ExtResource("2_yws0d")
+node = NodePath("..")
+collision_shape = NodePath("../Area2D/CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="ListLayoutContainer/ContentNode4"]
+texture = ExtResource("4_2hwlw")
+
+[node name="Area2D" type="Area2D" parent="ListLayoutContainer/ContentNode4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ListLayoutContainer/ContentNode4/Area2D"]
+shape = SubResource("RectangleShape2D_4f3db")
+
+[node name="InputController" type="Node2D" parent="ListLayoutContainer/ContentNode4" node_paths=PackedStringArray("mouse_input", "hover")]
+script = ExtResource("5_4f3db")
+mouse_input = NodePath("MouseInput")
+hover = NodePath("Hover")
+metadata/_custom_type_script = "uid://cfxn1q0djfr3j"
+
+[node name="MouseInput" type="Node2D" parent="ListLayoutContainer/ContentNode4/InputController" node_paths=PackedStringArray("area", "collision_shape")]
+script = ExtResource("6_5ngy0")
+area = NodePath("../../Area2D")
+collision_shape = NodePath("../../Area2D/CollisionShape2D")
+metadata/_custom_type_script = "uid://b0u5rrfnle1v"
+
+[node name="Hover" type="Node2D" parent="ListLayoutContainer/ContentNode4/InputController"]
+script = ExtResource("7_khp5w")
+enabled = true
+
+[node name="TransformController" type="Node2D" parent="ListLayoutContainer/ContentNode4" node_paths=PackedStringArray("node")]
+script = ExtResource("8_fe0cm")
+node = NodePath("..")
+metadata/_custom_type_script = "uid://c0j6c2y18bpy8"
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(0, 400)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+mouse_target = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1152, 400)
+render_target_update_mode = 4
+
+[node name="GridLayoutContainer" type="Node2D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("reference_area", "reference_area_shape")]
+position = Vector2(576, 272)
+script = ExtResource("1_dcbco")
+n_columns = 3
+reference_area = NodePath("Area2D")
+reference_area_shape = NodePath("Area2D/CollisionShape2D")
+
+[node name="Area2D" type="Area2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/Area2D"]
+shape = SubResource("RectangleShape2D_om8lt")
+
+[node name="ContentNode" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer"]
+
+[node name="LayoutElement" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode" node_paths=PackedStringArray("node", "collision_shape")]
+script = ExtResource("2_yws0d")
+node = NodePath("..")
+collision_shape = NodePath("../Area2D/CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode"]
+texture = ExtResource("4_2hwlw")
+
+[node name="Area2D" type="Area2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode/Area2D"]
+shape = SubResource("RectangleShape2D_4f3db")
+
+[node name="InputController" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode" node_paths=PackedStringArray("mouse_input", "hover")]
+script = ExtResource("5_4f3db")
+mouse_input = NodePath("MouseInput")
+hover = NodePath("Hover")
+metadata/_custom_type_script = "uid://cfxn1q0djfr3j"
+
+[node name="MouseInput" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode/InputController" node_paths=PackedStringArray("area", "collision_shape")]
+script = ExtResource("6_5ngy0")
+area = NodePath("../../Area2D")
+collision_shape = NodePath("../../Area2D/CollisionShape2D")
+metadata/_custom_type_script = "uid://b0u5rrfnle1v"
+
+[node name="Hover" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode/InputController"]
+script = ExtResource("7_khp5w")
+enabled = true
+
+[node name="ContentNode2" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer"]
+
+[node name="LayoutElement" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode2" node_paths=PackedStringArray("node", "collision_shape")]
+script = ExtResource("2_yws0d")
+node = NodePath("..")
+collision_shape = NodePath("../Area2D/CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode2"]
+texture = ExtResource("4_2hwlw")
+
+[node name="Area2D" type="Area2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode2/Area2D"]
+shape = SubResource("RectangleShape2D_4f3db")
+
+[node name="InputController" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode2" node_paths=PackedStringArray("mouse_input", "hover")]
+script = ExtResource("5_4f3db")
+mouse_input = NodePath("MouseInput")
+hover = NodePath("Hover")
+metadata/_custom_type_script = "uid://cfxn1q0djfr3j"
+
+[node name="MouseInput" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode2/InputController" node_paths=PackedStringArray("area", "collision_shape")]
+script = ExtResource("6_5ngy0")
+area = NodePath("../../Area2D")
+collision_shape = NodePath("../../Area2D/CollisionShape2D")
+metadata/_custom_type_script = "uid://b0u5rrfnle1v"
+
+[node name="Hover" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode2/InputController"]
+script = ExtResource("7_khp5w")
+enabled = true
+
+[node name="ContentNode3" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer"]
+
+[node name="LayoutElement" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode3" node_paths=PackedStringArray("node", "collision_shape")]
+script = ExtResource("2_yws0d")
+node = NodePath("..")
+collision_shape = NodePath("../Area2D/CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode3"]
+texture = ExtResource("4_2hwlw")
+
+[node name="Area2D" type="Area2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode3/Area2D"]
+shape = SubResource("RectangleShape2D_4f3db")
+
+[node name="InputController" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode3" node_paths=PackedStringArray("mouse_input", "hover")]
+script = ExtResource("5_4f3db")
+mouse_input = NodePath("MouseInput")
+hover = NodePath("Hover")
+metadata/_custom_type_script = "uid://cfxn1q0djfr3j"
+
+[node name="MouseInput" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode3/InputController" node_paths=PackedStringArray("area", "collision_shape")]
+script = ExtResource("6_5ngy0")
+area = NodePath("../../Area2D")
+collision_shape = NodePath("../../Area2D/CollisionShape2D")
+metadata/_custom_type_script = "uid://b0u5rrfnle1v"
+
+[node name="Hover" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode3/InputController"]
+script = ExtResource("7_khp5w")
+enabled = true
+
+[node name="ContentNode4" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer"]
+
+[node name="LayoutElement" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode4" node_paths=PackedStringArray("node", "collision_shape")]
+script = ExtResource("2_yws0d")
+node = NodePath("..")
+collision_shape = NodePath("../Area2D/CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode4"]
+texture = ExtResource("4_2hwlw")
+
+[node name="Area2D" type="Area2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode4/Area2D"]
+shape = SubResource("RectangleShape2D_4f3db")
+
+[node name="InputController" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode4" node_paths=PackedStringArray("mouse_input", "hover")]
+script = ExtResource("5_4f3db")
+mouse_input = NodePath("MouseInput")
+hover = NodePath("Hover")
+metadata/_custom_type_script = "uid://cfxn1q0djfr3j"
+
+[node name="MouseInput" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode4/InputController" node_paths=PackedStringArray("area", "collision_shape")]
+script = ExtResource("6_5ngy0")
+area = NodePath("../../Area2D")
+collision_shape = NodePath("../../Area2D/CollisionShape2D")
+metadata/_custom_type_script = "uid://b0u5rrfnle1v"
+
+[node name="Hover" type="Node2D" parent="SubViewportContainer/SubViewport/GridLayoutContainer/ContentNode4/InputController"]
+script = ExtResource("7_khp5w")
+enabled = true
+
+[node name="Camera2D" type="Camera2D" parent="SubViewportContainer/SubViewport"]
+position_smoothing_enabled = true
+position_smoothing_speed = 20.0
+rotation_smoothing_enabled = true
+rotation_smoothing_speed = 10.0
+
+[node name="CameraTransformController" type="Node2D" parent="SubViewportContainer/SubViewport/Camera2D" node_paths=PackedStringArray("region", "region_shape")]
+script = ExtResource("10_rx00r")
+region = NodePath("../../GridLayoutContainer/Area2D")
+region_shape = NodePath("../../GridLayoutContainer/Area2D/CollisionShape2D")
+metadata/_custom_type_script = "uid://blhdl2s8ep2ej"

@@ -3,7 +3,7 @@ extends Node2D
 class_name Drag
 
 
-var input_control: InputControl
+var input_control: InputController
 var start_position: Vector2
 var record_z_index_before_dragging: int
 signal on_start
@@ -11,7 +11,7 @@ signal on_stop
 
 
 func _ready() -> void:
-	input_control = get_parent() as InputControl
+	input_control = get_parent() as InputController
 	assert(input_control != null, "MouseInput must be a child of an InputControl node")
 
 	
@@ -23,8 +23,8 @@ func is_mouse_drag_start(button_state: MouseButtonState, mouse_position: Vector2
 	
 	
 func drag(mouse_position: Vector2):
-	var node: Node2D = input_control.node
-	var transform_control: TransformControl = node.get_node("TransformControl")
+	var node: Node2D                           = input_control.node
+	var transform_control: TransformController = node.get_node("TransformControl")
 	if transform_control != null:
 		transform_control.start_move(mouse_position, ChangeValue.ChangeType.SMOOTH_DAMP, Constants.DRAG_MOVE_SMOOTH_TIME)
 	else:
@@ -40,8 +40,8 @@ func start():
 
 		
 func cancel():
-	var node: Node2D = input_control.node
-	var transform_control: TransformControl = node.get_node("TransformControl")
+	var node: Node2D                           = input_control.node
+	var transform_control: TransformController = node.get_node("TransformControl")
 	if transform_control != null:
 		transform_control.start_move(start_position, ChangeValue.ChangeType.SMOOTH_DAMP, Constants.DRAG_MOVE_SMOOTH_TIME)
 	else:

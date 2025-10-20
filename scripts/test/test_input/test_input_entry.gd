@@ -1,7 +1,7 @@
 ﻿extends Node
 
 
-@export var input_control: InputControl
+@export var input_control: InputController
 
 
 # Called when the node enters the scene tree for the first time.

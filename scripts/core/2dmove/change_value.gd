@@ -47,7 +47,7 @@ func zero() -> Variant:
 			
 func is_changing() -> bool:
 	var actual_target_value = target_value + mod_target_value
-	return Utils.get_magnitude(current_value - actual_target_value) > Constants.EPSILON or Utils.get_magnitude(velocity) > Constants.EPSILON
+	return Utils.get_magnitude(current_value - actual_target_value) > Constants.EPSILON_2D_MOVE or Utils.get_magnitude(velocity) > Constants.EPSILON_2D_MOVE
 	
 	
 func start_change(_target_value: Variant, _change_type: ChangeType, _change_time: float, _mod_target_value: Variant = zero()) -> void:
@@ -89,7 +89,7 @@ func update(delta: float) -> void:
 			on_stop_change.emit()
 		ChangeType.LINEAR:
 			var new_value = current_value + velocity * delta
-			if Utils.get_magnitude(new_value - actual_target_value) < Constants.EPSILON or progress_time >= change_time:
+			if Utils.get_magnitude(new_value - actual_target_value) < Constants.EPSILON_2D_MOVE or progress_time >= change_time:
 				new_value = actual_target_value
 				velocity = zero()
 				on_stop_change.emit()
@@ -98,7 +98,7 @@ func update(delta: float) -> void:
 			var result: Array = Utils.smooth_damp_variant(current_value, actual_target_value, velocity, change_time, Constants.DEFAULT_DAMP_RATIO, INF, delta)
 			var new_value = result[0]
 			var new_velocity = result[1]
-			if Utils.get_magnitude(new_value - actual_target_value) <= Constants.EPSILON and Utils.get_magnitude(new_velocity) <= Constants.EPSILON:
+			if Utils.get_magnitude(new_value - actual_target_value) <= Constants.EPSILON_2D_MOVE and Utils.get_magnitude(new_velocity) <= Constants.EPSILON_2D_MOVE or progress_time >= change_time:
 				new_value = actual_target_value
 				new_velocity = zero()
 				on_stop_change.emit()

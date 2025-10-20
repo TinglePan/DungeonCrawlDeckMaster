@@ -6,11 +6,11 @@ class_name MouseInput
 @export var area: Node2D
 @export var collision_shape: CollisionShape2D
 @export var stop_propagation: bool = true
-var input_control: InputControl
+var input_control: InputController
 
 
 func _ready() -> void:
-	input_control = get_parent() as InputControl
+	input_control = get_parent() as InputController
 	assert(input_control != null, "MouseInput must be a child of an InputControl node")
 
 

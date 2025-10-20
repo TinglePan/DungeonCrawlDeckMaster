@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="DungeonCrawlDeckMaster"
-run/main_scene="uid://cyjnm8s5v5sc4"
+run/main_scene="uid://5sry1kyik1df"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://art/icon.svg"
 

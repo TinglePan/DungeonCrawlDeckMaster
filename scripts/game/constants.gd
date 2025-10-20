@@ -1,7 +1,9 @@
 ﻿extends Object
 class_name Constants
 
+
 const DEFAULT_DAMP_RATIO: float = 1.0
+const EPSILON_2D_MOVE: float = 0.01
 const EPSILON: float = 0.001
 const MOUSE_CLICK_THRESHOLD: int = 200  # milliseconds
 const MOUSE_HOLD_THRESHOLD: int = 500  # milliseconds

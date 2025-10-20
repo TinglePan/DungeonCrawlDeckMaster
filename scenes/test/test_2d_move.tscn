@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c6sqx6tcy47wi"]
 
 [ext_resource type="Script" uid="uid://cl1pknc5kfhni" path="res://scripts/test/test_2d_move.gd" id="1_dminj"]
-[ext_resource type="Script" uid="uid://qvh4bw7i3w78" path="res://scripts/core/2dmove/transform_control.gd" id="2_io7mt"]
+[ext_resource type="Script" uid="uid://c0j6c2y18bpy8" path="res://scripts/core/2dmove/transform_controller.gd" id="2_io7mt"]
 [ext_resource type="Texture2D" uid="uid://eh22112651it" path="res://art/icon.svg" id="3_u6oww"]
 
 [node name="Test2dMove" type="Node2D" node_paths=PackedStringArray("control")]

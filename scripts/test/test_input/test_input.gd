@@ -1,12 +1,12 @@
 ﻿extends Node
 
 
-@export var input_control_entry_1: InputControl
-@export var input_control_entry_2: InputControl
-@export var input_control_container_1: InputControl
-@export var input_control_3: InputControl
-@export var input_control_4: InputControl
-@export var input_control_container_2: InputControl
+@export var input_control_entry_1: InputController
+@export var input_control_entry_2: InputController
+@export var input_control_container_1: InputController
+@export var input_control_3: InputController
+@export var input_control_4: InputController
+@export var input_control_container_2: InputController
 var step: int
 
 
@@ -29,8 +29,8 @@ func _process(_delta: float) -> void:
 		step += 1
 		
 		
-func init_input_state(input_controls: Array[InputControl], pick_groups: Array[PickGroup]) -> InputState:
+func init_input_state(input_controls: Array[InputController], pick_groups: Array[PickGroup]) -> InputState:
 	var new_input_state = InputState.new(input_controls, pick_groups)
-	new_input_state.on_hover_changed.connect(func(from: InputControl, to: InputControl) -> void:
+	new_input_state.on_hover_changed.connect(func(from: InputController, to: InputController) -> void:
 		print("Hovered over: ", from, " to ", to))
 	return new_input_state
